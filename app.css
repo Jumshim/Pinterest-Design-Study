@@ -1,0 +1,54 @@
+* {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    padding: 10px;
+}
+
+.header-child {
+    flex: 1;
+    border: 2px solid yellow;
+}
+
+.header-child:nth-child(odd) {
+    flex: 0.8;
+}
+
+.header-child:nth-child(2) {
+    flex: 4;
+}
+
+#pinterestIcon {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    border-radius: 50%;
+    padding-top: 3px;
+}
+
+#pinterestIcon:hover {
+    background-color: #f0f0f0;
+}
+
+.button .navigationButtons {
+    text-align: center;
+    border-right: 25%;
+    border-left: 25%;
+    size: 5rem;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-right: 25%;
+  border-left: 25%;
+  font-size: 16px;
+}
