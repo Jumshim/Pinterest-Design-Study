@@ -1,5 +1,7 @@
 * {
     font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.05em;
 }
 
 .header {
@@ -9,15 +11,44 @@
 
 .header-child {
     flex: 1;
-    border: 2px solid yellow;
+    font-size: 0;
+    padding: 0px;
+    margin: 0px;
 }
 
-.header-child:nth-child(odd) {
-    flex: 0.8;
+.header-child:nth-child(1) {
+    flex: 1;
 }
 
 .header-child:nth-child(2) {
     flex: 4;
+}
+
+.header-child:nth-child(3) {
+    flex: 0.8;
+}
+
+.navigationButtons {
+  background-color: transparent;
+  border: none;
+  color: black;
+  padding: 15px 16px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 30px;
+  vertical-align: top;
+  margin: 0px;
+  font-weight: 520;
+}
+
+.navigationButtons:hover {
+    background-color: #f0f0f0;
+}
+
+#homeButton {
+    background-color: black;
+    color: white;
 }
 
 #pinterestIcon {
@@ -34,21 +65,38 @@
     background-color: #f0f0f0;
 }
 
-.button .navigationButtons {
-    text-align: center;
-    border-right: 25%;
-    border-left: 25%;
-    size: 5rem;
+#searchBar {
+  background-color: #f0f0f0;
+  border: none;
+  color: black;
+  padding: 15px 50px;
+  width: 1010px;
+  text-align: left;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 30px;
+  margin: 0px;
+  background-image: url("https://www.pngall.com/wp-content/uploads/8/Vector-Search-PNG-Free-Download.png");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 20px 20px;
+  background-position-x: 15px;
 }
 
-.button {
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-right: 25%;
-  border-left: 25%;
-  font-size: 16px;
+.profileButtons {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    border-radius: 50%;
+    padding: 8px 10px;
+}
+
+.profileButtons:hover {
+    background-color: #f0f0f0;
+}
+
+#profilePicture {
+    border-radius: 50%;
 }
