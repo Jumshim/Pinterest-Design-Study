@@ -29,19 +29,6 @@
     flex: 0.8;
 }
 
-.body {
-    display: flex;
-    padding: 2px 80px;
-}
-
-.body-child {
-    flex: 1;
-    font-size: 5px;
-    padding: 0px;
-    margin: 0px;
-    text-align: center;
-}
-
 .navigationButtons {
   background-color: transparent;
   border: none;
@@ -121,6 +108,19 @@
     padding: 3px 5px;
     vertical-align: center;
     margin: 8px 0px;
+}
+
+.body {
+    display: flex;
+    padding: 2px 80px;
+}
+
+.body-child {
+    flex: 1;
+    font-size: 5px;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
 }
 
 .pinImage {
