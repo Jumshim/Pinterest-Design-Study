@@ -90,7 +90,9 @@
     overflow: hidden;
     outline: none;
     border-radius: 50%;
-    padding: 8px 10px;
+    padding: 7px 9px;
+    vertical-align: top;
+    margin: 0px 2px;
 }
 
 .profileButtons:hover {
@@ -99,4 +101,10 @@
 
 #profilePicture {
     border-radius: 50%;
+}
+
+#markdownButton {
+    padding: 3px 5px;
+    vertical-align: center;
+    margin: 8px 0px;
 }
