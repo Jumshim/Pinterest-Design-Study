@@ -11,22 +11,15 @@
 }
 
 .header-child {
-    flex: 1;
     font-size: 0;
     padding: 0px;
     margin: 0px;
-}
-
-.header-child:nth-child(1) {
-    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .header-child:nth-child(2) {
-    flex: 4;
-}
-
-.header-child:nth-child(3) {
-    flex: 0.8;
+    flex: 1;
 }
 
 .navigationButtons {
@@ -66,15 +59,19 @@
     background-color: #f0f0f0;
 }
 
+.search-bar-container {
+    display: flex;
+    flex: 1;
+}
+
 #searchBar {
   background-color: #f0f0f0;
   border: none;
   color: black;
   padding: 15px 50px;
-  width: 1010px;
   text-align: left;
-  display: inline-block;
   cursor: pointer;
+  flex: 1;
   border-radius: 30px;
   margin: 0px;
   background-image: url("https://www.pngall.com/wp-content/uploads/8/Vector-Search-PNG-Free-Download.png");
