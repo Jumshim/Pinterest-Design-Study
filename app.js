@@ -7,6 +7,7 @@ app.set("view options", {layout: false});
 app.use(express.static(path.join(__dirname) + "/views"));
 app.set('views', path.join(__dirname, '/views'));
 app.engine('html', require('ejs').renderFile);
+//regular render cannot read other html files
 
 app.get('/', function(req, res) {
     res.render('index.html');
