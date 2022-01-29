@@ -11,6 +11,9 @@ const pinColumnCss = css`
   margin: 0px 8px;
 `
 
+//put img links in express
+//use fetch to see client vs server rendering and fetching
+
 var imgLinks = [
   "https://i.pinimg.com/474x/b1/12/9f/b1129fe005256b5ecce51f00eb380fb5.jpg",
   "https://i.pinimg.com/474x/8a/ca/35/8aca3572037db6ba9e08dd4b8dd2a636.jpg",

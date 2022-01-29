@@ -113,6 +113,8 @@ const headerCss = css`
   height: 80px;
   display: flex;
   grid-area: head;
+  position: sticky;
+  top: 0;
 `
 
 class Header extends React.Component {
