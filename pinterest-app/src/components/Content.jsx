@@ -20,6 +20,8 @@ const bodyCss = css`
   flex-direction: row;
   margin: 0px 80px;
   justify-content: center;
+  overflow: scroll;
+  scrollbar-width: none;
 `;
 
 const imgCss = css`
@@ -34,8 +36,22 @@ const PinColumn = ({url}) => {
 
 class Content extends React.Component {
   state = {
-    img: []
+    img: [],
+    page: 2
   };
+
+  handleScroll = (e) => {
+    const bottom = (e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
+    if(bottom) {
+        console.log('bottom');
+        fetch(`${BASE_URL}/images?tagID=${this.state.page}`)
+          .then(data => data.json())
+          .then(imgLinks => {
+            console.log(imgLinks);
+            this.setState({ img: [...this.state.img, ...imgLinks], page: this.state.page + 1 })
+          });
+    }
+  }
 
   componentDidMount() {
     console.log('component did mount');
@@ -62,23 +78,31 @@ class Content extends React.Component {
    * whatever we find interesting, we will do that :)
    * @returns 
    */
+
+  /**
+   * TODO: Pagination in a SQL query
+   * Reuse table design from last time
+   * Run the table schema by herk b4 implementing
+   * for credit: cursor based
+   * @returns 
+   */
   render(){
     console.log(this.state.img);
-    return <div css={bodyCss}>
+    return <div css={bodyCss} onScroll={this.handleScroll}>
       <div css={pinColumnCss}>
-        {this.state.img.slice(0, 5).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===0).map(link => <PinColumn url={link} key={link}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.slice(5, 10).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===1).map(link => <PinColumn url={link} key={link}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.slice(10, 15).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===2).map(link => <PinColumn url={link} key={link}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.slice(15, 20).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===3).map(link => <PinColumn url={link} key={link}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.slice(20, 25).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===4).map(link => <PinColumn url={link} key={link}/> )}
       </div>
     </div>
   }

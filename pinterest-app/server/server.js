@@ -4,6 +4,8 @@ const cors = require('cors');
 const app = express();
 const port = 4000;
 
+//backend first then frontend
+
 var imgLinks = [
     "https://i.pinimg.com/474x/b1/12/9f/b1129fe005256b5ecce51f00eb380fb5.jpg",
     "https://i.pinimg.com/474x/8a/ca/35/8aca3572037db6ba9e08dd4b8dd2a636.jpg",
@@ -32,10 +34,19 @@ var imgLinks = [
     "https://i.pinimg.com/474x/40/e7/c6/40e7c63ff6136b3e9bf147d60a50d938.jpg"
 ];
 
+imgLinks = [...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks];
+
 app.use(cors());
 
 app.get('/images', (req, res) => {
-    res.send(imgLinks);
+    let pageOffset = req.query.tagID;
+    let numImages = 5;
+    console.log(req.query);
+    if(!pageOffset){
+        res.send(imgLinks.slice(0, 10));
+    } else {
+        res.send(imgLinks.slice(pageOffset * numImages, (pageOffset * numImages) + numImages));
+    }
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
