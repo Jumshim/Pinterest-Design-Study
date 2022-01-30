@@ -118,6 +118,9 @@ const headerCss = css`
   transition: box-shadow: 300ms ease-in-out 0s;
 `
 
+/**
+ * TODO: Find out when scroll, add drop shadow when scroll
+ */
 class Header extends React.Component {
   render(){
     return <div css={headerCss}>
