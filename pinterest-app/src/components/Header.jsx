@@ -113,11 +113,14 @@ const headerCss = css`
   height: 80px;
   display: flex;
   grid-area: head;
-  position: fixed;
+  position: sticky;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 8px -8px;
   transition: box-shadow: 300ms ease-in-out 0s;
 `
 
+/**
+ * TODO: Find out when scroll, add drop shadow when scroll
+ */
 class Header extends React.Component {
   render(){
     return <div css={headerCss}>
