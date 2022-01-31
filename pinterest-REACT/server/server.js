@@ -40,7 +40,7 @@ app.get('/images', async (req, res) => {
     imgLinks = [...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks];
     imgLinks = [...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks];
     if(!pageOffset){
-        res.send(imgLinks.slice(0, 10));
+        res.send(imgLinks.slice(0, 20));
     } else {
         res.send(imgLinks.slice(pageOffset * numImages, (pageOffset * numImages) + numImages));
     }
