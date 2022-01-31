@@ -40,14 +40,12 @@ class Content extends React.Component {
     page: 2
   };
 
-  handleScroll = (e) => {
+  handleScroll = async (e) => {
     const bottom = (e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
     if(bottom) {
-        console.log('bottom');
         fetch(`${BASE_URL}/images?tagID=${this.state.page}`)
           .then(data => data.json())
           .then(imgLinks => {
-            console.log(imgLinks);
             this.setState({ img: [...this.state.img, ...imgLinks], page: this.state.page + 1 })
           });
     }
@@ -57,7 +55,8 @@ class Content extends React.Component {
     console.log('component did mount');
     fetch(`${BASE_URL}/images`)
       .then(data => data.json())
-      .then(imgLinks => this.setState({ img: imgLinks }));
+      .then(imgLinks => this.setState({ img: imgLinks }))
+      .then(imgArray => console.log(imgArray));
   }
   // five nines - represent 99.999%
   // the uptime that you want during the year. Servers are not resilient to network faults
@@ -87,22 +86,21 @@ class Content extends React.Component {
    * @returns 
    */
   render(){
-    console.log(this.state.img);
     return <div css={bodyCss} onScroll={this.handleScroll}>
       <div css={pinColumnCss}>
-        {this.state.img.filter((img, index) => index%5===0).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===0).map(link => <PinColumn url={link.URL} key={link.URL}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.filter((img, index) => index%5===1).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===1).map(link => <PinColumn url={link.URL} key={link.URL}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.filter((img, index) => index%5===2).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===2).map(link => <PinColumn url={link.URL} key={link.URL}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.filter((img, index) => index%5===3).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===3).map(link => <PinColumn url={link.URL} key={link.URL}/> )}
       </div>
       <div css={pinColumnCss}>
-        {this.state.img.filter((img, index) => index%5===4).map(link => <PinColumn url={link} key={link}/> )}
+        {this.state.img.filter((img, index) => index%5===4).map(link => <PinColumn url={link.URL} key={link.URL}/> )}
       </div>
     </div>
   }
