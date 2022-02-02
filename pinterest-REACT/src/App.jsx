@@ -5,11 +5,6 @@ import React from 'react';
 import Header from './components/Header';
 import Content from './components/Content';
 
-/** different lvls of abstr.
- * sometimes over abstract
- * can think of everything 1 piece at a time
- */
-
 const mainCss = css`
   display: grid;
   width: 100%;
