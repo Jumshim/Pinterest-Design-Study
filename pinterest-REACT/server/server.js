@@ -35,10 +35,10 @@ app.use(cors());
 
 app.get('/images', async (req, res) => {
     let cursor = req.query.tagID ? req.query.tagID : 0;
-    let numImages = 10;
+    let numImages = 20;
     let imgLinks = await getImages(cursor*numImages, numImages);
-    imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
-    imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
+    //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
+    //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
     if(!cursor){
         res.send(imgLinks.slice(0, numImages));
     } else {
