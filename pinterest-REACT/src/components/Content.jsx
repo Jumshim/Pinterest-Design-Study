@@ -34,7 +34,7 @@ const PinColumn = ({url}) => {
 class Content extends React.Component {
   state = {
     img: [],
-    page: 2
+    page: 0
   };
 
   handleScroll = async (e) => {
@@ -52,7 +52,7 @@ class Content extends React.Component {
     console.log('component did mount');
     fetch(`${BASE_URL}/images`)
       .then(data => data.json())
-      .then(imgLinks => this.setState({ img: imgLinks }))
+      .then(imgLinks => this.setState({ img: imgLinks, page: this.state.page + 1 }))
       .then(imgArray => console.log(imgArray));
   }
   // five nines - represent 99.999%
@@ -67,7 +67,7 @@ class Content extends React.Component {
     for(let i = 0; i < 5; i++) {
       columns.push(
         <div css={pinColumnCss}>
-          {this.state.img.filter((img, index) => index%5===i).map(link => <PinColumn url={link.URL} key={link.URL}/> )}
+          {this.state.img.filter((img, index) => index%5===i).map(link => <PinColumn url={link.URL} key={link.title}/> )}
         </div>
       )
     }

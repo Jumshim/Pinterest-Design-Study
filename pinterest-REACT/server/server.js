@@ -18,10 +18,14 @@ let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
     console.log('Connected to SQL Database!');
 });
 
-function getImages() {
+//Just add a thing for get images where you receive a parameter
+//where user_id = param
+//pass in page * numImages
+
+function getImages(cursor, numImages) {
     let data = [];
     return new Promise(resolve => {
-        db.all(`SELECT URL FROM images`, [], (err, rows) => {
+        db.all(`SELECT URL FROM images WHERE img_id>? LIMIT ?`, [cursor, numImages], (err, rows) => {
             if(err) { throw err };
             rows.forEach((row => {
                 data.push(row);
@@ -34,15 +38,13 @@ function getImages() {
 app.use(cors());
 
 app.get('/images', async (req, res) => {
-    let pageOffset = req.query.tagID;
-    let numImages = 20;
-    let imgLinks = await getImages();
-    imgLinks = [...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks];
-    imgLinks = [...imgLinks, ...imgLinks, ...imgLinks, ...imgLinks];
-    if(!pageOffset){
-        res.send(imgLinks.slice(0, 20));
+    let cursor = req.query.tagID ? req.query.tagID : 0;
+    let numImages = 10;
+    let imgLinks = await getImages(cursor*numImages, numImages);
+    if(!cursor){
+        res.send(imgLinks.slice(0, numImages));
     } else {
-        res.send(imgLinks.slice(pageOffset * numImages, (pageOffset * numImages) + numImages));
+        res.send(imgLinks.slice(cursor, cursor + numImages));
     }
 });
 
