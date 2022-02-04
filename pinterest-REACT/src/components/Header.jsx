@@ -3,6 +3,7 @@
 import { jsx, css } from '@emotion/react'
 import React from 'react';
 
+//Make personal pinterest board for website
 
 const headerDivCss = css`
   display: flex;
