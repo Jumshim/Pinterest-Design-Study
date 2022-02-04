@@ -18,10 +18,6 @@ let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
     console.log('Connected to SQL Database!');
 });
 
-//Just add a thing for get images where you receive a parameter
-//where user_id = param
-//pass in page * numImages
-
 function getImages(cursor, numImages) {
     let data = [];
     return new Promise(resolve => {
