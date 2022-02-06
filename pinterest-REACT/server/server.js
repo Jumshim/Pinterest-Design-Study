@@ -21,7 +21,7 @@ let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
 function getImages(cursor, numImages) {
     let data = [];
     return new Promise(resolve => {
-        db.all(`SELECT URL FROM images WHERE img_id>? LIMIT ?`, [cursor, numImages], (err, rows) => {
+        db.all(`SELECT URL FROM images WHERE img_id>? ORDER BY img_id ASC LIMIT ?`, [cursor*numImages, numImages], (err, rows) => {
             if(err) { throw err };
             rows.forEach((row => {
                 data.push(row);
@@ -36,13 +36,13 @@ app.use(cors());
 app.get('/images', async (req, res) => {
     let cursor = req.query.tagID ? req.query.tagID : 0;
     let numImages = 20;
-    let imgLinks = await getImages(cursor*numImages, numImages);
-    //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
+    let imgLinks = await getImages(cursor, numImages);
+    imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
     //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
     if(!cursor){
         res.send(imgLinks.slice(0, numImages));
     } else {
-        res.send(imgLinks.slice(cursor, cursor + numImages));
+        res.send(imgLinks.slice(0, numImages));
     }
 });
 

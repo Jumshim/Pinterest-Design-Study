@@ -6,7 +6,7 @@ let images = require('./images.json');
 
 images = [...images, ...images, ...images, ...images, ...images, ...images];
 
-let createTable = 'CREATE TABLE images (img_id INTEGER PRIMARY KEY, title, description, URL NOT NULL)';
+let createTable = 'CREATE TABLE images (img_id INTEGER PRIMARY KEY, title, description, URL NOT NULL) IF NOT EXISTS';
 let insertImages = `INSERT INTO images(title, description, URL) VALUES (?, ?, ?)`;
 
 
