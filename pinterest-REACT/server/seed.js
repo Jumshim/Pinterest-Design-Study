@@ -4,8 +4,6 @@ let db = new sqlite3.Database('images.db');
 
 let images = require('./images.json');
 
-images = [...images, ...images, ...images, ...images, ...images, ...images];
-
 let createTable = 'CREATE TABLE IF NOT EXISTS images (img_id INTEGER PRIMARY KEY, title, description, URL NOT NULL, UNIQUE(URL))';
 let insertImages = `INSERT OR IGNORE INTO images(title, description, URL) VALUES (?, ?, ?)`;
 
