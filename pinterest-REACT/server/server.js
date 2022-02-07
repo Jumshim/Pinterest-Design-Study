@@ -39,7 +39,6 @@ app.get('/images', async (req, res) => {
     let numImages = 20;
     let imgLinks = await getImages(cursor, numImages);
     //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
-    //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
     if(!cursor){
         res.send(imgLinks);
     } else {
