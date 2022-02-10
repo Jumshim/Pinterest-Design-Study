@@ -33,17 +33,28 @@ const PinColumn = ({url}) => {
 
 class Content extends React.Component {
   state = {
-    img: [],
-    page: 0
+    img: []
   };
 
+  //derive state
+  /**
+   * 
+   */
   handleScroll = async (e) => {
     const bottom = (e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
     if(bottom) {
-        fetch(`${BASE_URL}/images?tagID=${this.state.page}`)
+        let imgId = 0;
+        console.log(this.state.img);
+        for(let i = 0; i < this.state.img.length; i++) {
+          if(imgId < this.state.img[i].img_id) {
+            imgId = this.state.img[i].img_id;
+          }
+        }
+        console.log(imgId);
+        fetch(`${BASE_URL}/images?imgId=${imgId}`)
           .then(data => data.json())
-          .then(imgLinks => {
-            this.setState({ img: [...this.state.img, ...imgLinks], page: this.state.page + 1 })
+          .then(images => {
+            this.setState({ img: [...this.state.img, ...images] })
           });
     }
   }
@@ -52,16 +63,13 @@ class Content extends React.Component {
     console.log('component did mount');
     fetch(`${BASE_URL}/images`)
       .then(data => data.json())
-      .then(imgLinks => this.setState({ img: imgLinks, page: this.state.page + 1 }))
+      .then(imgLinks => this.setState({ img: imgLinks })) // fix
       .then(imgArray => console.log(imgArray));
   }
   // five nines - represent 99.999%
   // the uptime that you want during the year. Servers are not resilient to network faults
   // problems with scaling upwards or horizontally
 
-  /**
-   * for credit: cursor based
-   */
   render(){
     let columns = [];
     for(let i = 0; i < 5; i++) {

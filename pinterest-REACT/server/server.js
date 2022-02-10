@@ -7,8 +7,9 @@ const port = 4000;
 
 //backend first then frontend
 /**
- * Learn machine learning???
- * suggestions in searchbar
+ * if i were to search images, it would cause a change in a state
+ * Backend Search
+ * Frontend Search
  */
 
 let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -19,10 +20,10 @@ let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
 });
 
 function getImages(cursor, numImages) {
-    let selectURLs = `SELECT URL FROM images WHERE img_id>? ORDER BY img_id ASC LIMIT ?`;
+    let selectURLs = `SELECT img_id, URL FROM images WHERE img_id>? ORDER BY img_id ASC LIMIT ?`;
     let data = [];
     return new Promise(resolve => {
-        db.all(selectURLs, [cursor*numImages, numImages], (err, rows) => {
+        db.all(selectURLs, [cursor, numImages], (err, rows) => {
             if(err) { throw err };
             rows.forEach((row => {
                 data.push(row);
@@ -35,14 +36,15 @@ function getImages(cursor, numImages) {
 app.use(cors());
 
 app.get('/images', async (req, res) => {
-    let cursor = req.query.tagID ? req.query.tagID : 0;
+    let cursor = req.query.imgId ? req.query.imgId : 0;
     let numImages = 20;
-    let imgLinks = await getImages(cursor, numImages);
+    let images = await getImages(cursor, numImages);
+    //conditions are unique column and has some order
     //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
     if(!cursor){
-        res.send(imgLinks);
+        res.send(images);
     } else {
-        res.send(imgLinks);
+        res.send(images);
     }
 });
 
