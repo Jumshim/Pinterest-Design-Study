@@ -85,6 +85,8 @@ const NavigationButtons = ({nav}) => {
   </div>
 };
 
+//debouncing but with wait(3000) so you're not spamming
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);

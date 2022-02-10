@@ -6,11 +6,6 @@ const app = express();
 const port = 4000;
 
 //backend first then frontend
-/**
- * if i were to search images, it would cause a change in a state
- * Backend Search
- * Frontend Search
- */
 
 let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
     if(err) {

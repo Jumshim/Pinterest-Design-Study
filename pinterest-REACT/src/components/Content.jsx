@@ -32,10 +32,7 @@ const PinColumn = ({url}) => {
 };
 
 class Content extends React.Component {
-  //derive state
-  /**
-   * 
-   */
+
   handleScroll = async (e) => {
     const bottom = (e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
     if(bottom) {
@@ -62,9 +59,6 @@ class Content extends React.Component {
       .then(imgLinks => this.props.changeImg(imgLinks)) 
       .then(imgArray => console.log(imgArray));
   }
-  // five nines - represent 99.999%
-  // the uptime that you want during the year. Servers are not resilient to network faults
-  // problems with scaling upwards or horizontally
 
   render(){
     let columns = [];
