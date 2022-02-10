@@ -17,14 +17,24 @@ const mainCss = css`
   grid-column-gap: 15px;
 `;
 
-function App() {
-  
-  return (
-    <div css={mainCss}>
-      <Header/>
-      <Content/>
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {img: []};
+    this.updateImages = this.updateImages.bind(this)
+  }
+
+  updateImages(images) {
+    this.setState({img: images});
+  }
+
+  render() {
+   return <div css={mainCss}>
+      <Header changeImg={this.updateImages}/>
+      <Content img={this.state.img} changeImg={this.updateImages}/>
     </div>
-  );
+  } 
 }
 
 export default App;

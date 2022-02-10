@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react'
 import React from 'react';
+import BASE_URL from '../utils';
 
 //Make personal pinterest board for website
 
@@ -53,7 +54,6 @@ const searchBarCss = css`
   padding: 15px 50px;
   text-align: left;
   border-radius: 30px;
-  height: 48px;
   width: 100%;
   background-image: url("https://www.pngall.com/wp-content/uploads/8/Vector-Search-PNG-Free-Download.png");
   background-repeat: no-repeat;
@@ -85,11 +85,33 @@ const NavigationButtons = ({nav}) => {
   </div>
 };
 
-const SearchBar = ({search}) => {
-  return <div css={searchBarContainerCss}>
-    <input type="search" id="searchBar" placeholder="Search" css={searchBarCss}></input>
-  </div>
-};
+class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    fetch(`${BASE_URL}/images?searchQuery=${this.state.value}`)
+      .then(data => data.json()) 
+      .then(searchedImages => {
+        this.props.changeImg(searchedImages);
+      });
+    event.preventDefault();
+  }
+
+  render() {
+    return <form onSubmit={this.handleSubmit} css={searchBarContainerCss}>
+        <input type="text" value={this.state.value} onChange={this.handleChange} id="searchBar" placeholder="Search" css={searchBarCss}></input>
+      </form>
+  }
+}
 
 const ProfileButtons = ({prof}) => {
   return <div css={headerDivCss}>
@@ -126,7 +148,7 @@ class Header extends React.Component {
   render(){
     return <div css={headerCss}>
       <NavigationButtons/>
-      <SearchBar/>
+      <SearchBar changeImg={this.props.changeImg}/>
       <ProfileButtons/>
     </div>
   }

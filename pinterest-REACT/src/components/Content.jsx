@@ -32,10 +32,6 @@ const PinColumn = ({url}) => {
 };
 
 class Content extends React.Component {
-  state = {
-    img: []
-  };
-
   //derive state
   /**
    * 
@@ -44,17 +40,17 @@ class Content extends React.Component {
     const bottom = (e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
     if(bottom) {
         let imgId = 0;
-        console.log(this.state.img);
-        for(let i = 0; i < this.state.img.length; i++) {
-          if(imgId < this.state.img[i].img_id) {
-            imgId = this.state.img[i].img_id;
+        console.log(this.props.img);
+        for(let i = 0; i < this.props.img.length; i++) {
+          if(imgId < this.props.img[i].img_id) {
+            imgId = this.props.img[i].img_id;
           }
         }
         console.log(imgId);
         fetch(`${BASE_URL}/images?imgId=${imgId}`)
           .then(data => data.json())
           .then(images => {
-            this.setState({ img: [...this.state.img, ...images] })
+            this.props.changeImg([...this.props.img, ...images])
           });
     }
   }
@@ -63,7 +59,7 @@ class Content extends React.Component {
     console.log('component did mount');
     fetch(`${BASE_URL}/images`)
       .then(data => data.json())
-      .then(imgLinks => this.setState({ img: imgLinks })) // fix
+      .then(imgLinks => this.props.changeImg(imgLinks)) 
       .then(imgArray => console.log(imgArray));
   }
   // five nines - represent 99.999%
@@ -75,12 +71,12 @@ class Content extends React.Component {
     for(let i = 0; i < 5; i++) {
       columns.push(
         <div css={pinColumnCss}>
-          {this.state.img.filter((img, index) => index%5===i).map(link => <PinColumn url={link.URL} key={link.title}/> )}
+          {this.props.img.filter((img, index) => index%5===i).map(link => <PinColumn url={link.URL} key={link.title}/> )}
         </div>
       )
     }
     return <div css={bodyCss} onScroll={this.handleScroll}>
-      {columns};
+      {columns}
     </div>
   }
 }
