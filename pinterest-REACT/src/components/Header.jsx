@@ -3,6 +3,7 @@
 import { jsx, css } from '@emotion/react'
 import React from 'react';
 import BASE_URL from '../utils';
+import history from '../history';
 
 //Make personal pinterest board for website
 
@@ -123,7 +124,7 @@ const ProfileButtons = ({prof}) => {
     <a href="/temp" css={profileButtonsCss}>
       <img src="https://cdn2.iconfinder.com/data/icons/gaming-and-beyond-part-2-1/80/Message_gray-512.png" height="25" width="25"></img>
     </a>
-    <a href="/temp" css={profileButtonsCss}>
+    <a css={profileButtonsCss} onClick={() => history.push('/accounts')}>
       <img src = "https://i.pinimg.com/originals/5f/64/17/5f6417000d38033f6443f0bc3d1c67c8.jpg" width="25" height="25" css={{borderRadius: "50%"}}></img>
     </a>
     <a href="/temp" css={profileButtonsCss}>
