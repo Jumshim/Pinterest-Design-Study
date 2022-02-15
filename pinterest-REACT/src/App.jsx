@@ -5,7 +5,16 @@ import React from 'react';
 import Header from './components/Header';
 import Content from './components/Content';
 
-
+/**
+ * BrowserRouter component = base router
+ * Then Switch; activates correct route
+ * Inside each switch, add a route component
+ * - route takes path as a parameter and surrounds a child component
+ * - child component is displayed when route is active
+ * 
+ * Switch is carried onto other pages too, so be careful
+ * 
+ */
 //try to do users
 
 const mainCss = css`
