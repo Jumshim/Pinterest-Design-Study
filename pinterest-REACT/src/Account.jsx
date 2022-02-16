@@ -9,15 +9,8 @@ const Account = () => {
     return (
         <div>
             <h1> Log In </h1>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/">
-                        <App></App>
-                    </Route>
-                </Switch>
-            </BrowserRouter>
         </div>
     );
 };
 
-export default Home;
+export default Account;

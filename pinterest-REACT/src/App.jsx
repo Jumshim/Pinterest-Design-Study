@@ -4,6 +4,8 @@ import { jsx, css } from '@emotion/react';
 import React from 'react';
 import Header from './components/Header';
 import Content from './components/Content';
+import Account from './Account';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 /**
  * BrowserRouter component = base router
@@ -42,10 +44,15 @@ class App extends React.Component {
   }
 
   render() {
-   return <div css={mainCss}>
-      <Header changeImg={this.updateImages}/>
-      <Content img={this.state.img} changeImg={this.updateImages}/>
+   return <BrowserRouter>
+    <div css={mainCss}>
+    <Header changeImg={this.updateImages}/>
+      <Routes>
+        <Route path="/" element={<Content img={this.state.img} changeImg={this.updateImages}/>} />
+        <Route path="/account" element={<Account/>} />
+      </Routes>
     </div>
+   </BrowserRouter>
   } 
 }
 
