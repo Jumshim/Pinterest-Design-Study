@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, css } from '@emotion/react'
+import {jsx, css} from '@emotion/react';
 import React from 'react';
 import BASE_URL from '../utils';
 
@@ -9,7 +9,7 @@ const pinColumnCss = css`
   flex-direction: column;
   width: 236px;
   margin: 0px 8px;
-`
+`;
 
 const bodyCss = css`
   display: flex;
@@ -28,50 +28,55 @@ const imgCss = css`
 `;
 
 const PinColumn = ({url}) => {
-  return <img src={url} css={imgCss}></img>
+  return <img src={url} css={imgCss}></img>;
 };
 
 class Content extends React.Component {
-
   handleScroll = async (e) => {
-    const bottom = (e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
-    if(bottom) {
-        let imgId = 0;
-        console.log(this.props.img);
-        for(let i = 0; i < this.props.img.length; i++) {
-          if(imgId < this.props.img[i].img_id) {
-            imgId = this.props.img[i].img_id;
-          }
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      let imgId = 0;
+      console.log(this.props.img);
+      for (let i = 0; i < this.props.img.length; i++) {
+        if (imgId < this.props.img[i].img_id) {
+          imgId = this.props.img[i].img_id;
         }
-        console.log(imgId);
-        fetch(`${BASE_URL}/images?imgId=${imgId}`)
-          .then(data => data.json())
-          .then(images => {
-            this.props.changeImg([...this.props.img, ...images])
-          });
+      }
+      console.log(imgId);
+      fetch(`${BASE_URL}/images?imgId=${imgId}`)
+        .then((data) => data.json())
+        .then((images) => {
+          this.props.changeImg([...this.props.img, ...images]);
+        });
     }
-  }
+  };
 
   componentDidMount() {
     console.log('component did mount');
     fetch(`${BASE_URL}/images`)
-      .then(data => data.json())
-      .then(imgLinks => this.props.changeImg(imgLinks)) 
-      .then(imgArray => console.log(imgArray));
+      .then((data) => data.json())
+      .then((imgLinks) => this.props.changeImg(imgLinks))
+      .then((imgArray) => console.log(imgArray));
   }
 
-  render(){
+  render() {
     let columns = [];
-    for(let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       columns.push(
         <div css={pinColumnCss}>
-          {this.props.img.filter((img, index) => index%5===i).map(link => <PinColumn url={link.URL} key={link.title}/> )}
-        </div>
-      )
+          {this.props.img
+            .filter((img, index) => index % 5 === i)
+            .map((link) => (
+              <PinColumn url={link.URL} key={link.title} />
+            ))}
+        </div>,
+      );
     }
-    return <div css={bodyCss} onScroll={this.handleScroll}>
-      {columns}
-    </div>
+    return (
+      <div css={bodyCss} onScroll={this.handleScroll}>
+        {columns}
+      </div>
+    );
   }
 }
 
