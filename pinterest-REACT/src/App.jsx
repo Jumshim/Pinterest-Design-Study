@@ -4,7 +4,7 @@ import {jsx, css} from '@emotion/react';
 import React from 'react';
 import Header from './components/Header';
 import Content from './components/Content';
-import Account from './Account';
+import {LoginBox, SignupBox} from './Account';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 /**
@@ -52,7 +52,8 @@ class App extends React.Component {
               path="/"
               element={<Content img={this.state.img} changeImg={this.updateImages} />}
             />
-            <Route path="/account" element={<Account />} />
+            <Route path="/login" element={<LoginBox />} />
+            <Route path="/signup" element={<SignupBox />}/>
           </Routes>
         </div>
       </BrowserRouter>
