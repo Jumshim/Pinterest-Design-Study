@@ -7,18 +7,6 @@ import Content from './components/Content';
 import {LoginBox, SignupBox} from './Account';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
-/**
- * BrowserRouter component = base router
- * Then Switch; activates correct route
- * Inside each switch, add a route component
- * - route takes path as a parameter and surrounds a child component
- * - child component is displayed when route is active
- *
- * Switch is carried onto other pages too, so be careful
- *
- */
-//try to do users
-
 const mainCss = css`
   display: grid;
   width: 100%;

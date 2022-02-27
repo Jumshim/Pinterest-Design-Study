@@ -75,7 +75,7 @@ const profileButtonsCss = css`
 const NavigationButtons = ({nav}) => {
   return (
     <div css={headerDivCss}>
-      <a href="/temp">
+      <a href="/login">
         <img
           src="https://i.pinimg.com/originals/d3/d1/75/d3d175e560ae133f1ed5cd4ec173751a.png"
           height="35"
@@ -83,10 +83,10 @@ const NavigationButtons = ({nav}) => {
           css={pinterestIconCss}
         ></img>
       </a>
-      <a href="/temp" css={homeButtonCss}>
+      <a href="/" css={homeButtonCss}>
         <span> Home </span>
       </a>
-      <a href="/temp" css={todayButtonCss}>
+      <a href="/" css={todayButtonCss}>
         <span> Today </span>
       </a>
     </div>
@@ -142,7 +142,7 @@ const ProfileButtons = ({prof}) => {
           width="25"
         ></img>
       </a>
-      <a href="/temp" css={profileButtonsCss}>
+      <a href="/" css={profileButtonsCss}>
         <img
           src="https://cdn2.iconfinder.com/data/icons/gaming-and-beyond-part-2-1/80/Message_gray-512.png"
           height="25"
@@ -157,7 +157,7 @@ const ProfileButtons = ({prof}) => {
           css={{borderRadius: '50%'}}
         ></img>
       </a>
-      <a href="/temp" css={profileButtonsCss}>
+      <a href="/login" css={profileButtonsCss}>
         <img
           src="https://cdn1.iconfinder.com/data/icons/general-ui-outlined-thick/24/chevron-down-512.png"
           width="15"
@@ -179,9 +179,6 @@ const headerCss = css`
   transition: box-shadow: 300ms ease-in-out 0s;
 `;
 
-/**
- * TODO: Find out when scroll, add drop shadow when scroll
- */
 class Header extends React.Component {
   render() {
     return (
