@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require("express-session");
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
@@ -34,8 +35,16 @@ function getImages(cursor, numImages, searchQuery) {
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  session({
+    secret: "key that will sign cookie",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 app.get('/images', async (req, res) => {
+  console.log(req.session);
   let cursor = req.query.imgId ? req.query.imgId : 0;
   let searchQuery = req.query.searchQuery ? req.query.searchQuery : '';
   let numImages = 20;
@@ -50,6 +59,7 @@ app.get('/images', async (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+  req.session.isAuth = true;
   res.json(req.body);
   console.log(req.body);
   console.log(req);
@@ -61,6 +71,7 @@ app.post('/login', (req, res) => {
 // access any page. if hash is false, then a redirect is sent
 
 app.post('/signup', (req, res) => {
+  console.log(req.session);
   res.json(req.body);
   let password = req.body.password;
   let hash = bcrypt.hashSync(password, salt);
