@@ -53,6 +53,9 @@ class Content extends React.Component {
 
   componentDidMount() {
     console.log('component did mount');
+    //do this for every single fetch; should make a function for fetch that always includes credentials
+    //every fetch you have should catch the 302 response
+    //use libraries like axios so that whenever a 302 error happens, redo lines 62-65
     fetch(`${BASE_URL}/images`, { credentials: "include" })
       .then((response) => {
         console.log(`response.status = ${response.status}`);
@@ -65,7 +68,6 @@ class Content extends React.Component {
       })
       .then((imgLinks) => this.props.changeImg(imgLinks))
       .then((imgArray) => console.log(imgArray))
-      .catch((e) => console.log(`Error is: ${e}`));
   }
 
   render() {
