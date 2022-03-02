@@ -4,18 +4,26 @@ const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-const app = express();
-const port = 4000;
-const credentialFile = require('./credential');
-const salt = bcrypt.genSaltSync(credentialFile.saltRounds);
-//backend first then frontend
 
-let db = new sqlite3.Database('images.db', sqlite3.OPEN_READWRITE, (err) => {
+const app = express();
+const credentialFile = require('./credential');
+const { env } = require('process');
+const port = env.PORT || 4000;
+const salt = credentialFile.salt;
+//backend first then frontend
+var corsOptions = {
+  origin : "http://localhost:3000",
+  credentials: true,
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
+
+db = new sqlite3.Database('./images.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     return console.error(err.message);
   }
   console.log('Connected to SQL Database!');
 });
+
 
 function getImages(cursor, numImages, searchQuery) {
   let selectURLs = `SELECT img_id, URL FROM images WHERE img_id>? AND (title LIKE '%${searchQuery}%' OR description LIKE '%${searchQuery}%') ORDER BY img_id ASC LIMIT ?`;
@@ -33,15 +41,28 @@ function getImages(cursor, numImages, searchQuery) {
   });
 }
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+
 app.use(
   session({
+    //hide the secret key
     secret: "key that will sign cookie",
-    resave: false,
-    saveUninitialized: false
+    resave: false, 
+    saveUninitialized: false,
+    cookie: {
+      secure: false
+    }
   })
 );
+
+app.all(["/images"], (req,res, next) => {
+  if(req.session.userId){
+    next(); 
+  }else{
+     res.status(302).send({url: "http://localhost:3000/login"});
+   }
+ })
 
 app.get('/images', async (req, res) => {
   console.log(req.session);
@@ -49,8 +70,6 @@ app.get('/images', async (req, res) => {
   let searchQuery = req.query.searchQuery ? req.query.searchQuery : '';
   let numImages = 20;
   let images = await getImages(cursor, numImages, searchQuery);
-  //conditions are unique column and has some order
-  //imgLinks = [...imgLinks, ...imgLinks, ...imgLinks];
   if (!cursor) {
     res.send(images);
   } else {
@@ -59,10 +78,27 @@ app.get('/images', async (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  req.session.isAuth = true;
-  res.json(req.body);
-  console.log(req.body);
-  console.log(req);
+  const username = req.body.username;
+  const password = req.body.password;
+  db.get(`SELECT id, password FROM users WHERE email = ?;`, username, (err, user) => {
+    if(user) {
+      bcrypt.compare(password, user.password, (error, response) => {
+        if(response) {
+          console.log('Password is equal');
+          req.session.userId = user.id;
+          req.session.cookie.maxAge = 60*1000*60*24*7;
+          console.log(`user id: ${user.id}`);
+          res.send({ message: "Login successful"});
+        } else {
+          console.log('Password is wrong');
+          res.status(401).send({ message: "Wrong password for username" });
+        }
+      })
+    } else {
+      res.status(401).send({ message: "User does not exist" });
+    }
+  });
+
 });
 
 //protected Routes
@@ -71,12 +107,23 @@ app.post('/login', (req, res) => {
 // access any page. if hash is false, then a redirect is sent
 
 app.post('/signup', (req, res) => {
-  console.log(req.session);
+
   res.json(req.body);
   let password = req.body.password;
   let hash = bcrypt.hashSync(password, salt);
   let addUser = `INSERT OR IGNORE INTO users(email, password, name) VALUES (?, ?, ?)`;
-  //add validation checks
+  db.run(addUser, [req.body.email, hash, req.body.name]);
+    console.log('user created');
+    /**
+     * if(req.body.email == req.body.confEmail && req.body.password == req.body.confPassword && req.body.name != null) {
+    res.send({isValid: true})
+    db.run(addUser, [req.body.email, hash, req.body.name]);
+    console.log('user created');
+  } else {
+    res.send({isValid: false})
+  }
+     */
+    //add validation checks
   //is email == confEmail
   /**
    * when you return the error, the client side should have red boxes
@@ -84,7 +131,9 @@ app.post('/signup', (req, res) => {
    * involving more state because you might have an errors thing in response
    * check error state, know which box is error by the label
    */
-  db.run(addUser, [req.body.email, hash, req.body.name]);
+  
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+if(!env.TEST) {
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+}

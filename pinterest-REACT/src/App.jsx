@@ -22,7 +22,7 @@ const mainCss = css`
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {img: []};
+    this.state = {img: [], userID: "", isAuth: false};
     this.updateImages = this.updateImages.bind(this);
   }
 

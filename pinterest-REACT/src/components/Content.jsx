@@ -43,7 +43,7 @@ class Content extends React.Component {
         }
       }
       console.log(imgId);
-      fetch(`${BASE_URL}/images?imgId=${imgId}`)
+      fetch(`${BASE_URL}/images?imgId=${imgId}`, { credentials: "include" })
         .then((data) => data.json())
         .then((images) => {
           this.props.changeImg([...this.props.img, ...images]);
@@ -53,10 +53,19 @@ class Content extends React.Component {
 
   componentDidMount() {
     console.log('component did mount');
-    fetch(`${BASE_URL}/images`)
-      .then((data) => data.json())
+    fetch(`${BASE_URL}/images`, { credentials: "include" })
+      .then((response) => {
+        console.log(`response.status = ${response.status}`);
+        if(response.status === 302) {
+          response.json().then((resp) => {
+            window.location.href = resp.url;
+          })
+        }
+        return response.json()
+      })
       .then((imgLinks) => this.props.changeImg(imgLinks))
-      .then((imgArray) => console.log(imgArray));
+      .then((imgArray) => console.log(imgArray))
+      .catch((e) => console.log(`Error is: ${e}`));
   }
 
   render() {

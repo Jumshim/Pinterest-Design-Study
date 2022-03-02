@@ -4,7 +4,7 @@
 import React from 'react';
 import {jsx, css} from '@emotion/react';
 import BASE_URL from './utils';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 const bodyCss = css`
   display: flex;
@@ -48,7 +48,7 @@ const loginCss = css`
 export class LoginBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {username: '', password: ''};
+    this.state = {username: '', password: '', error: '', isAuth: false};
     this.changeUsername = this.changeUsername.bind(this);
     this.changePassword = this.changePassword.bind(this);
     this.sendCredentials = this.sendCredentials.bind(this);
@@ -68,8 +68,21 @@ export class LoginBox extends React.Component {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(this.state)
-    });
+    })
+    .then((response) =>{
+      if(response.status === 200) {
+        return response.json();
+      } else {
+        throw "Login not successful";
+      }
+    })
+    .then((body) => {
+      this.setState({error: '', isAuth: true});
+      console.log(body.message);
+    })
+    .catch((error) => this.setState({error: error}));
   }
 
   render() {
@@ -79,6 +92,8 @@ export class LoginBox extends React.Component {
         <input type="text" placeholder="Username/Email" onChange={this.changeUsername}></input>
         <input type="password" placeholder="Password" onChange={this.changePassword}></input>
         <button onClick={this.sendCredentials}> Login </button>
+        {this.state.error && <span>{this.state.error}</span>}
+        {this.state.isAuth && (<Navigate to="/" replace={true}/>)}
       </div>
     );
   }
@@ -93,6 +108,7 @@ export class SignupBox extends React.Component {
       password: '', 
       confPassword: '',
       name: '',
+      isValid: true
     };
     this.changeEmail = this.changeEmail.bind(this);
     this.changeConfEmail = this.changeConfEmail.bind(this);
@@ -129,7 +145,8 @@ export class SignupBox extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(this.state)
-    });
+    })
+    .then((data) => {data.json(); console.log(data)})
   }
 
   //button for signup, 
