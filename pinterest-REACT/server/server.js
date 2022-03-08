@@ -76,6 +76,9 @@ app.get('/images', async (req, res) => {
     res.send(images);
   }
 });
+/**
+ * Why isn't my cookie staying constant?
+ */
 
 app.post('/login', (req, res) => {
   const username = req.body.username;
