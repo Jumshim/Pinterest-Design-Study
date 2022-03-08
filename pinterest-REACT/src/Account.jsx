@@ -23,28 +23,6 @@ const loginCss = css`
   justify-content: center;
 `;
 
-/**
- * class Credential extends React.Component {
-    constructor() {
-        this.state = {value: ''};
-        this.handleChange
-    }
-}
- */
-
-/**
- * use cookies to know if person needs to login or see content
- * can be an id or something; every request sends the cookie
- * if the backend accepts the cookie, then reauthentication is not needed
- * otherwise, we need to authenticate
- * 
- * use passport to hash password
- * when someone logs in, you find them by username
- * check if passport matches
- * 
- * if no username, then redirect to sign up
- */
-
 export class LoginBox extends React.Component {
   constructor(props) {
     super(props);
