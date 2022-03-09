@@ -27,6 +27,10 @@ const imgCss = css`
   width: 100%;
 `;
 
+const appFetch = (url, options) => {
+  return fetch(url, {credentials: "include", ...options});
+}
+
 const PinColumn = ({url}) => {
   return <img src={url} css={imgCss}></img>;
 };
@@ -56,10 +60,12 @@ class Content extends React.Component {
     //do this for every single fetch; should make a function for fetch that always includes credentials
     //every fetch you have should catch the 302 response
     //use libraries like axios so that whenever a 302 error happens, redo lines 62-65
+
+    //302 is done server side, when you want to return all of the code it just rerenders. usually you get an unauthorized
     fetch(`${BASE_URL}/images`, { credentials: "include" })
       .then((response) => {
         console.log(`response.status = ${response.status}`);
-        if(response.status === 302) {
+        if(response.status === 401) {
           response.json().then((resp) => {
             window.location.href = resp.url;
           })

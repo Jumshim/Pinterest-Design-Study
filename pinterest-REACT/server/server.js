@@ -60,7 +60,7 @@ app.all(["/images"], (req,res, next) => {
   if(req.session.userId){
     next(); 
   }else{
-     res.status(302).send({url: "http://localhost:3000/login"});
+     res.status(401).send({url: "http://localhost:3000/login"});
    }
  })
 
@@ -76,9 +76,6 @@ app.get('/images', async (req, res) => {
     res.send(images);
   }
 });
-/**
- * Why isn't my cookie staying constant?
- */
 
 app.post('/login', (req, res) => {
   const username = req.body.username;
@@ -105,9 +102,6 @@ app.post('/login', (req, res) => {
 });
 
 //protected Routes
-//send cookie, expiration date. that's how u know you're logged in
-// cookie has decoded hash and has information on the user that allows you to
-// access any page. if hash is false, then a redirect is sent
 
 app.post('/signup', (req, res) => {
 

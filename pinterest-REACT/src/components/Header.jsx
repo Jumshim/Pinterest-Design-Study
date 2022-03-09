@@ -93,8 +93,6 @@ const NavigationButtons = ({nav}) => {
   );
 };
 
-//debouncing but with wait(3000) so you're not spamming
-
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -108,7 +106,7 @@ class SearchBar extends React.Component {
   }
 
   handleSubmit(event) {
-    fetch(`${BASE_URL}/images?searchQuery=${this.state.value}`)
+    fetch(`${BASE_URL}/images?searchQuery=${this.state.value}`, { credentials: "include" })
       .then((data) => data.json())
       .then((searchedImages) => {
         this.props.changeImg(searchedImages);
@@ -118,16 +116,21 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} css={searchBarContainerCss}>
-        <input
-          type="text"
-          value={this.state.value}
-          onChange={this.handleChange}
-          id="searchBar"
-          placeholder="Search"
-          css={searchBarCss}
-        ></input>
-      </form>
+      <div css={[searchBarContainerCss, css`position: relative`]}>
+        <form onSubmit={this.handleSubmit} css={searchBarContainerCss}>
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+            id="searchBar"
+            placeholder="Search"
+            css={searchBarCss}
+          ></input>
+        </form>
+        {this.state.value && <div css={css`height: 100px; width: 100px; top: 60px; background-color: red; position: absolute;`}>
+
+        </div>}
+      </div>
     );
   }
 }
